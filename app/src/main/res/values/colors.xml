@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Leather & paper palette -->
+    <color name="primary">#8A4B2D</color>
+    <color name="primary_dark">#5E321A</color>
+    <color name="primary_light">#F4E4D6</color>
+    <color name="accent">#E0A030</color>
+    <color name="accent_light">#F6D79B</color>
+
+    <color name="background">#FBF7F0</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_elevated">#FFFFFF</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="reader_background">#2B2119</color>
+
+    <color name="text_primary">#2A2118</color>
+    <color name="text_secondary">#6F6254</color>
+    <color name="text_tertiary">#A09484</color>
+    <color name="text_on_dark">#F6EEE2</color>
+
+    <color name="highlight_yellow">#FFF59D</color>
+    <color name="highlight_green">#C5E1A5</color>
+    <color name="highlight_pink">#F8BBD0</color>
+    <color name="highlight_blue">#B3E5FC</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="divider">#E8DFD2</color>
+    <color name="chip_background">#F1E8DB</color>
+    <color name="bookmark_color">#E0A030</color>
+    <color name="star_color">#F5B301</color>
+
+    <color name="hero_start">#8A4B2D</color>
+    <color name="hero_end">#C27A3E</color>
+    <color name="progress_track">#E8DFD2</color>
+</resources>

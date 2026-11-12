@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- menu/home_bottom_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_all"
+        android:title="Library"
+        android:icon="@drawable/ic_library" />
+
+    <item
+        android:id="@+id/nav_recent"
+        android:title="Recent"
+        android:icon="@drawable/ic_history" />
+
+    <item
+        android:id="@+id/nav_favorites"
+        android:title="Favorites"
+        android:icon="@drawable/ic_favorite_border" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Settings"
+        android:icon="@drawable/ic_settings" />
+
+</menu>

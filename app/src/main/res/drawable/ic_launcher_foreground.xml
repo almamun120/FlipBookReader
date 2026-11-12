@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Outer Glow for the Book -->
+    <path
+        android:pathData="M30,30 L78,30 Q82,30 82,34 L82,78 Q82,82 78,82 L30,82 Q26,82 26,78 L26,34 Q26,30 30,30 Z"
+        android:fillColor="#4DFFFFFF"/>
+
+    <!-- Book Body -->
+    <path
+        android:pathData="M32,32 L76,32 Q80,32 80,36 L80,76 Q80,80 76,80 L32,80 Q28,80 28,76 L28,36 Q28,32 32,32 Z"
+        android:fillColor="#FFD700"/>
+
+    <!-- Spine -->
+    <path
+        android:pathData="M28,36 L34,36 L34,76 L28,76 Z"
+        android:fillColor="#B8860B"/>
+
+    <!-- Pages lines -->
+    <path
+        android:pathData="M40,42 L70,42 M40,50 L70,50 M40,58 L70,58 M40,66 L60,66"
+        android:strokeColor="#1A1A2E"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"/>
+
+    <!-- "Flip" Arrow indicating turning a page -->
+    <path
+        android:pathData="M70,65 Q85,65 85,50 T70,35"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"/>
+    <path
+        android:pathData="M70,35 L74,39 M70,35 L74,31"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"/>
+
+</vector>

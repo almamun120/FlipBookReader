@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#E0A878</color>
+    <color name="primary_dark">#2A1D14</color>
+    <color name="primary_light">#3A2A1E</color>
+    <color name="accent">#F0B94A</color>
+    <color name="accent_light">#5C4513</color>
+
+    <color name="background">#14100D</color>
+    <color name="surface">#1E1914</color>
+    <color name="surface_elevated">#262019</color>
+    <color name="card_background">#241E18</color>
+    <color name="reader_background">#0F0C0A</color>
+
+    <color name="text_primary">#F0E7DA</color>
+    <color name="text_secondary">#B9AC9B</color>
+    <color name="text_tertiary">#7E7364</color>
+    <color name="text_on_dark">#F6EEE2</color>
+
+    <color name="divider">#352D24</color>
+    <color name="chip_background">#2D251D</color>
+
+    <color name="hero_start">#4A2A17</color>
+    <color name="hero_end">#7A4A26</color>
+    <color name="progress_track">#3A3128</color>
+</resources>

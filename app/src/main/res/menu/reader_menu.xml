@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- menu/reader_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_search"
+        android:title="Search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_bookmark"
+        android:title="Bookmark"
+        android:icon="@drawable/ic_bookmark_outline"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_bookmarks_list"
+        android:title="Bookmarks List"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_goto_page"
+        android:title="Go to Page"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="Reader Settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_share"
+        android:title="Share"
+        app:showAsAction="never" />
+
+</menu>

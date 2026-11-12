@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- layout/bottom_sheet_book_options.xml -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="24dp">
+
+    <!-- Handle -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"
+        android:background="#40000000" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="12dp"
+        android:text="Book Options"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary" />
+
+    <include layout="@layout/divider" />
+
+    <LinearLayout android:id="@+id/btnOpen"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView android:layout_width="24dp" android:layout_height="24dp"
+            android:src="@drawable/ic_open_book" android:tint="@color/primary" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Open Book" android:textSize="16sp"
+            android:textColor="@color/text_primary" android:layout_marginStart="16dp" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/btnEdit"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView android:layout_width="24dp" android:layout_height="24dp"
+            android:src="@drawable/ic_edit" android:tint="@color/primary" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Edit Details" android:textSize="16sp"
+            android:textColor="@color/text_primary" android:layout_marginStart="16dp" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/btnShare"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView android:layout_width="24dp" android:layout_height="24dp"
+            android:src="@drawable/ic_share" android:tint="@color/primary" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Share" android:textSize="16sp"
+            android:textColor="@color/text_primary" android:layout_marginStart="16dp" />
+    </LinearLayout>
+
+    <include layout="@layout/divider" />
+
+    <LinearLayout android:id="@+id/btnDelete"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="20dp"
+        android:background="?attr/selectableItemBackground">
+
+        <ImageView android:layout_width="24dp" android:layout_height="24dp"
+            android:src="@drawable/ic_delete" android:tint="#F44336" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Remove from Library" android:textSize="16sp"
+            android:textColor="#F44336" android:layout_marginStart="16dp" />
+    </LinearLayout>
+
+</LinearLayout>

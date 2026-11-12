@@ -1,0 +1,130 @@
+name: Android CI
+
+# ── কখন চলবে ─────────────────────────────────────────────────────────────
+# • main/master-এ push করলে অটো (debug + signed release)
+# • Pull Request-এ অটো
+# • v* ট্যাগ (যেমন v1.2.0) push করলে GitHub Release তৈরি হবে
+# • Actions ট্যাবে "Run workflow" চাপলে ম্যানুয়ালি
+on:
+  push:
+    branches: [ main, master ]
+    tags: [ 'v*' ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  APP_NAME: BookFlip
+
+jobs:
+  build:
+    name: Build Debug + Signed Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Gradle (cache)
+        uses: gradle/actions/setup-gradle@v4
+
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Compute version
+        id: ver
+        run: |
+          VERSION_NAME=$(grep -E '^APP_VERSION_NAME=' gradle.properties | cut -d= -f2 | tr -d '[:space:]')
+          VERSION_NAME=${VERSION_NAME:-1.0.0}
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            VERSION_NAME="${GITHUB_REF_NAME#v}"
+          fi
+          echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+          echo "code=${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+
+      # ── Debug ──────────────────────────────────────────────────────────
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug --stacktrace -PversionName=${{ steps.ver.outputs.name }} -PversionCode=${{ steps.ver.outputs.code }}
+
+      # ── Keystore ───────────────────────────────────────────────────────
+      # Repo Secrets-এ KEYSTORE_BASE64, KEYSTORE_PASSWORD, KEY_ALIAS, KEY_PASSWORD
+      # দিলে সেটা দিয়ে সাইন হবে। না দিলে প্রতি রানে একটা অস্থায়ী কী বানিয়ে সাইন হবে
+      # (ইনস্টল হবে, কিন্তু আলাদা কী-র APK-এর ওপর আপডেট হবে না)।
+      - name: Prepare signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          KS="$RUNNER_TEMP/release.jks"
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > "$KS"
+            echo "SIGNING_KIND=your own keystore (secrets)" >> "$GITHUB_ENV"
+          else
+            echo "::warning::KEYSTORE_BASE64 secret সেট করা নেই — অস্থায়ী কী দিয়ে সাইন করা হচ্ছে"
+            KEYSTORE_PASSWORD="ci-temporary-pass"; KEY_ALIAS="ci"; KEY_PASSWORD="ci-temporary-pass"
+            keytool -genkeypair -v -keystore "$KS" -storepass "$KEYSTORE_PASSWORD" \
+              -alias "$KEY_ALIAS" -keypass "$KEY_PASSWORD" -keyalg RSA -keysize 2048 \
+              -validity 10000 -dname "CN=${APP_NAME}, O=CI, C=BD"
+            echo "SIGNING_KIND=temporary CI key" >> "$GITHUB_ENV"
+          fi
+          {
+            echo "KEYSTORE_FILE=$KS"
+            echo "KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD"
+            echo "KEY_ALIAS=$KEY_ALIAS"
+            echo "KEY_PASSWORD=$KEY_PASSWORD"
+          } >> "$GITHUB_ENV"
+
+      # ── Release (signed) ───────────────────────────────────────────────
+      - name: Build signed Release APK
+        run: ./gradlew assembleRelease --stacktrace -PversionName=${{ steps.ver.outputs.name }} -PversionCode=${{ steps.ver.outputs.code }}
+
+      - name: Verify signature
+        run: |
+          APKSIGNER=$(ls $ANDROID_HOME/build-tools/*/apksigner | sort -V | tail -1)
+          APK=$(ls app/build/outputs/apk/release/*.apk | head -1)
+          "$APKSIGNER" verify --print-certs "$APK"
+
+      - name: Collect artifacts
+        run: |
+          mkdir -p dist
+          V=${{ steps.ver.outputs.name }}
+          cp app/build/outputs/apk/debug/*.apk   "dist/${APP_NAME}-${V}-debug.apk"
+          cp app/build/outputs/apk/release/*.apk "dist/${APP_NAME}-${V}-release-signed.apk"
+          ls -lh dist
+
+      - name: Upload Debug APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APP_NAME }}-debug
+          path: dist/*-debug.apk
+
+      - name: Upload Signed Release APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.APP_NAME }}-release-signed
+          path: dist/*-release-signed.apk
+
+      - name: Publish GitHub Release (tags only)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.apk
+          generate_release_notes: true
+          body: |
+            Signing: ${{ env.SIGNING_KIND }}
